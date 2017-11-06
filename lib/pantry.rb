@@ -37,7 +37,13 @@ class Pantry
 
   def what_can_i_make
     cookbook.map do |recipe|
-      recipe.name if stock_check(recipe.ingredients.each {|ingredient| ingredient.value}) >= recipe.amount_required(recipe.ingredient_types.each {|ingredient| ingredient.value})
+      recipe.name if stock_check(recipe.ingredient_types.each {|ingredient| ingredient[0]}) >= recipe.amount_required(recipe.ingredient_types.each {|ingredient| ingredient[0]})
     end.compact
+  end
+
+  def grab_ingredients
+    cookbook.map do |recipe|
+      recipe.ingredient_types
+    end.flatten
   end
 end
