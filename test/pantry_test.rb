@@ -256,4 +256,32 @@ class PantryTest < Minitest::Test
   expected = [[20, 10], [20, 20], [10, 40], [30, 120], [10, 20], [10, 20]]
   assert_equal expected, pantry.zip_stock_and_required
   end
+
+  def test_zip_ingredients
+    pantry = Pantry.new
+    r1 = Recipe.new("Cheese Pizza")
+    r1.add_ingredient("Cheese", 20)
+    r1.add_ingredient("Flour", 20)
+
+    r2 = Recipe.new("Pickles")
+    r2.add_ingredient("Brine", 10)
+    r2.add_ingredient("Cucumbers", 30)
+
+    r3 = Recipe.new("Peanuts")
+    r3.add_ingredient("Raw nuts", 10)
+    r3.add_ingredient("Salt", 10)
+
+    pantry.add_to_cookbook(r1)
+    pantry.add_to_cookbook(r2)
+    pantry.add_to_cookbook(r3)
+
+    pantry.restock("Cheese", 10)
+    pantry.restock("Flour", 20)
+    pantry.restock("Brine", 40)
+    pantry.restock("Cucumbers", 120)
+    pantry.restock("Raw nuts", 20)
+    pantry.restock("Salt", 20)
+    expected = [[[20, 10], "Cheese"], [[20, 20], "Flour"], [[10, 40], "Brine"], [[30, 120], "Cucumbers"], [[10, 20], "Raw nuts"], [[10, 20], "Salt"]]
+    assert_equal expected, pantry.zip_ingredients
+  end
 end
