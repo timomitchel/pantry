@@ -20,8 +20,6 @@ class Pantry
   end
 
   def shopping_list
-    @shopping_list.reduce(Hash.new) do |result, hash|
-      result.merge(hash)
-    end
+    @shopping_list.reduce {|acc, h| acc.merge(h) {|key,v1,v2| v1 + v2 }}
   end
 end
