@@ -45,4 +45,22 @@ class PantryTest < Minitest::Test
     assert_equal ({"Cheese" => 20, "Flour" => 20}), pantry.shopping_list
   end
 
+  def test_another_recipe_adds_to_shopping_list_correctly
+    pantry = Pantry.new
+    r = Recipe.new('Cheese Pizza')
+
+    r.add_ingredient('Cheese', 20)
+    r.add_ingredient('Flour', 20)
+    pantry.add_to_shopping_list(r)
+
+    r_1 = Recipe.new("Spaghetti")
+    r_1.add_ingredient("Spaghetti Noodles", 10)
+    r_1.add_ingredient("Marinara Sauce", 10)
+    r_1.add_ingredient("Cheese", 5)
+    pantry.add_to_shopping_list(r_1)
+    expected = {"Cheese" => 25, "Flour" => 20, "Spaghetti Noodles" => 10, "Marinara Sauce" => 10}
+
+    assert_equal expected, pantry.shopping_list
+  end
+
 end
