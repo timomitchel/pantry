@@ -37,14 +37,18 @@ class Pantry
 
   def what_can_i_make
     cookbook.map do |recipe|
-      recipe.name if check_amount_in_stock.each do |amount|
-        amount >= recipe.amount_required(grab_ingredients.each {|i| i})
+      recipe.name if zip_stock_and_required.map do |amounts|
+        amounts[1] >= amounts[0]
       end
     end.compact
   end
 
+  def zip_stock_and_required
+    grab_amounts_required.zip(check_amount_in_stock)
+  end
+
   def grab_amounts_required
-    requirements =cookbook.map do |recipe|
+    requirements = cookbook.map do |recipe|
       grab_ingredients.map do |ingredient|
         recipe.amount_required(ingredient)
       end.flatten.compact
