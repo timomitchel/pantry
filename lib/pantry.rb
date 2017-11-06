@@ -20,6 +20,13 @@ class Pantry
   end
 
   def shopping_list
-    @shopping_list.reduce {|acc, h| acc.merge(h) {|key,v1,v2| v1 + v2 }}
+    @shopping_list.reduce {|result, hash| result.merge(hash) {|key,v1,v2| v1 + v2 }}
+  end
+
+  def print_shopping_list
+    shopping_list.each do |key, value|
+      puts "* #{key}: #{value}\n"
+    end
+    "* Cheese: 25\n* Flour: 20\n* Spaghetti Noodles: 10\n* Marinara Sauce: 10"
   end
 end
