@@ -41,6 +41,12 @@ class Pantry
     end.compact
   end
 
+  def check_amount_in_stock
+    grab_ingredients.map do |ingredient|
+      stock_check(ingredient)
+    end
+  end
+
   def grab_ingredients
     cookbook.map do |recipe|
       recipe.ingredient_types
